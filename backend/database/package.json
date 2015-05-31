@@ -1,0 +1,12 @@
+{
+  "name": "qbic-database",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {},
+  "dependencies": {
+    "lodash": "~3.9.3"
+  },
+  "devDependencies": {
+    "jslint": "~0.9.0"
+  }
+}
