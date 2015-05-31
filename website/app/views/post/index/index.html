@@ -1,0 +1,28 @@
+<div class="row" ng-controller="PostIndexCtrl">
+  <div class="col-md-12">
+
+      <form class="form-horizontal" ng-submit="submit()">
+
+        <textarea class="form-control" rows="3" ng-model="model.content"></textarea>
+
+        <br/>
+
+        <button type="button" class="btn btn-primary" ngf-select ngf-multiple="true" ng-model="model.files">Select File</button>
+
+        <button type="submit" class="btn btn-primary">post</button>
+
+      </form>
+
+      <br/>
+
+      <div ng-repeat="file in model.files">
+        <img width="200" ngf-src="file" ngf-default-src="/images/thumb.jpg" ngf-accept="'.jpg,.png'">
+      </div>
+
+      <div>
+        <p>{{log}}</p>
+        <p>{{files}}</p>
+      </div>
+
+  </div>
+</div>
