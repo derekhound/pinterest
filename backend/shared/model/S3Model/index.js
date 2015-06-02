@@ -6,7 +6,7 @@ module.exports = function(api, S3) {
 
   var dir = __dirname;
   fs.readdirSync(dir).forEach(function (filename) {
-    // skip association file
+    // skip files
     if (filename !== 'index.js') {
       // get basename
       var basename = filename.substr(0, filename.lastIndexOf('.'));
