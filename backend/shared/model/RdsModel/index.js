@@ -6,7 +6,7 @@ module.exports = function(api, Sequelize) {
 
   var dir = __dirname;
   fs.readdirSync(dir).forEach(function (filename) {
-    // skip association file
+    // skip file
     if (filename !== 'index.js' && filename !== 'association.js') {
       // get basename
       var basename = filename.substr(0, filename.lastIndexOf('.'));

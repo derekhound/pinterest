@@ -10,8 +10,6 @@ module.exports = function(api) {
     region          : api.config.aws.region
   }
 
-  var S3 = new aws.S3(options);
-
-  return S3;
+  return new aws.S3(options);
 };
 
