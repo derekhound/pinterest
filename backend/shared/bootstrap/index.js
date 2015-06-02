@@ -1,15 +1,19 @@
+var _ = require('lodash');
+
 /**
  *
- * @param {object} opions
- * @param {string} opions.appName
- * @param {string|string[]} opions.configPath - an extra config dir or config file
+ * @param {object} options
+ * @param {string} options.appName
  *
  */
 
-module.exports = function(options) {
+module.exports = function(options, next) {
 
-  // default values
-  options = options || {};
+  // reorder params
+  if (_.isFunction(options)) {
+    next = options;
+    options = {};
+  }
 
   // setup api
   var api = {};
@@ -21,13 +25,18 @@ module.exports = function(options) {
   api.project = __dirname + '/../..';
 
   // setup config
-  require('./config')(api, options);
+  require('./config')(api);
 
   // setup dependent injection
-  require('./dependable')(api, options);
+  require('./dependable')(api);
 
   // setup logger
   require('./logger')(api, options);
+
+  // execute application
+  if (next) {
+    api.container.resolve(next);
+  }
 
   return api;
 };

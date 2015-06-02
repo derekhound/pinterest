@@ -1,9 +1,12 @@
 var _ = require('lodash');
 
-function run(api, Sequelize, RdsModel)
+// bootstrap
+require('../../shared/bootstrap')(main);
+
+function main(api, Sequelize, RdsModel)
 {
   Sequelize
-  .sync({force: true})
+  .sync({force: false})
   .then(function() {
     var User = RdsModel.User;
     return User.create({
@@ -18,14 +21,4 @@ function run(api, Sequelize, RdsModel)
     process.exit();
   });
 }
-
-//------------------------------
-// bootstrap
-//------------------------------
-(function() {
-  var api = require('../common/bootstrap')({
-    appName: 'test'
-  });
-  api.container.resolve(run);
-})();
 

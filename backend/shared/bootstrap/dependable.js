@@ -1,9 +1,35 @@
-var fs = require('fs');
-var path = require('path');
-var _ = require('lodash');
-var dependable = require('dependable');
+var fs          = require('fs');
+var path        = require('path');
+var _           = require('lodash');
+var dependable  = require('dependable');
 
-module.exports = function(api, options) {
+function registerFile(container, filepath)
+{
+  container.load(filepath);
+}
+
+function registerDir(container, dirpath)
+{
+  fs.readdirSync(dirpath).forEach(function (filename) {
+    var path = dirpath + '/' + filename;
+    var name = require('path').basename(path, '.js');
+
+    if (fs.statSync(path).isDirectory()) {
+      // module
+      if (fs.existsSync(path + '/index.js')) {
+        container.register(name, require(path + '/index.js'));
+      // dir
+      } else {
+        registerDir(container, path);
+      }
+    // file
+    } else {
+      registerFile(container, path);
+    }
+  });
+}
+
+module.exports = function(api) {
 
   // setup api.container
   api.container = dependable.container();
@@ -11,26 +37,16 @@ module.exports = function(api, options) {
   // register api
   api.container.register('api', api);
 
-  // register files & dirs & modules
-  _.forEach(api.config.di.files, function(file) {
-    api.container.load(file);
-  });
-  _.forEach(api.config.di.dirs, function(dir) {
-    api.container.load(dir);
-  });
-  _.forEach(api.config.di.modules, function(module) {
-    api.container.register(path.basename(module), require(module));
-  });
+  // dir list
+  var dirs = [
+    '/shared/resource',
+    '/shared/model',
+    '/shared/service'
+  ];
 
-  // register extra files & dirs & modules
-  _.forEach(api.config.di.extraFiles, function(file) {
-    api.container.load(file);
-  });
-  _.forEach(api.config.di.extraDirs, function(dir) {
-    api.container.load(dir);
-  });
-  _.forEach(api.config.di.extraModules, function(module) {
-    api.container.register(path.basename(module), require(module));
+  // register shared dir
+  _.forEach(dirs, function(dir) {
+    registerDir(api.container, api.project + dir);
   });
 
 };

@@ -9,7 +9,7 @@ module.exports = function(api, options) {
   // application name
   var appName = options.appName || 'default';
 
-  // mkdir log
+  // make log dir
   var dir = api.project + '/log';
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -34,7 +34,7 @@ module.exports = function(api, options) {
     zippedArchive: true
   }));
 
-  // instance winston logger
+  // setup api.logger
   api.logger = new (winston.Logger)({
     levels: {
       emerg: 7,
@@ -51,10 +51,10 @@ module.exports = function(api, options) {
 
   // setup api.log
   api.log = function(severity, message, data) {
-    if (severity == null || api.logger.levels[severity] == null) {
+    if (severity === null || api.logger.levels[severity] === null) {
       severity = 'info'
     }
-    if (data != null) {
+    if (data !== null) {
       api.logger.log(severity, message, data);
     } else {
       api.logger.log(severity, message);

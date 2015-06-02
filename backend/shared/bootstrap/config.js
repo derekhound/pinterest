@@ -1,62 +1,46 @@
 var fs = require('fs');
 var _ = require('lodash');
 
-function loadConfigFile(api, filepath)
+function loadConfigFile(env, filepath)
 {
-  // env
-  var env = api.env;
-
-  // get basename
-  var name = require('path').basename(filepath, '.js');
-
-  // setup api.config[name]
-  api.config[name] = api.config[name] || {};
+  var result = {};
 
   // load config
   var config = require(filepath);
 
   // merge different env setting
   if (config[env]) {
-    _.extend(api.config[name], config['default'], config[env]);
+    _.extend(result, config['default'](), config[env]());
   } else {
-    _.extend(api.config[name], config['default']);
+    _.extend(result, config['default']());
   }
+
+  return result;
 }
 
-function loadConfigDir(api, dirpath)
+function loadConfigDir(env, dirpath)
 {
+  var result = {};
+
   fs.readdirSync(dirpath).forEach(function (filename) {
-    var filepath = dirpath + '/' + filename;
-    loadConfigFile(api, filepath);
-  });
-}
+    var path = dirpath + '/' + filename;
+    var name = require('path').basename(path, '.js');
 
-module.exports = function(api, options) {
-  // setup api.config
-  api.config = {};
-
-  // config paths
-  var paths = [];
-
-  // system config dir
-  paths.push(api.project + '/config');
-
-  // app config path
-  if (_.isString(options.configPath)) {
-    paths.push(options.configPath);
-  } else if (_.isArray(options.configPath)) {
-    _.forEach(options.configPath, function(path) {
-      paths.push(path);
-    });
-  }
-
-  // load config
-  _.forEach(paths, function(path) {
     if (fs.statSync(path).isDirectory()) {
-      loadConfigDir(api, path);
+      result[name] = loadConfigDir(env, path);
     } else {
-      loadConfigFile(api, path);
+      result[name] = loadConfigFile(env, path);
     }
   });
+
+  return result;
+}
+
+module.exports = function(api) {
+  // config dir
+  var dir = api.project + '/config';
+
+  // load configs
+  api.config = loadConfigDir(api.env, dir);
 };
 
