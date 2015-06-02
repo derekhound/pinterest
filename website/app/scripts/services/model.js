@@ -22,9 +22,15 @@ angular.module('app')
       user_id: '@post_id'
     });
 
+    var streams = $resource(backend + '/api/1/streams/:stream_id', {
+      token: getToken,
+      user_id: '@stream_id'
+    });
+
     return {
       users: users,
-      posts: posts
+      posts: posts,
+      streams: streams
     };
 
   }]);

@@ -3,7 +3,7 @@ var _ = require('lodash');
 function run(api, Sequelize, RdsModel)
 {
   Sequelize
-  .sync({force: false})
+  .sync({force: true})
   .then(function() {
     var User = RdsModel.User;
     return User.create({
