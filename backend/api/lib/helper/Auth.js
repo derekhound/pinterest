@@ -18,7 +18,7 @@ module.exports = function(api) {
     }
 
     // verify token
-    jwt.verify(token, api.config.auth.token.secret, function(err, decoded) {
+    jwt.verify(token, api.config.api.auth.token.secret, function(err, decoded) {
 
       // check err
       if (err) {

@@ -18,9 +18,6 @@ module.exports = function(options, next) {
   // setup api
   var api = {};
 
-  // setup env
-  api.env = process.env.NODE_ENV || 'development';
-
   // project root
   api.project = __dirname + '/../..';
 

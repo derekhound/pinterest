@@ -6,9 +6,14 @@ var cookieParser  = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var multiparty    = require('connect-multiparty');
 
+// bootstrap
+require('../shared/bootstrap')(main);
 
-function run(api, Auth)
+function main(api)
 {
+  // register DI
+  api.load(api.config.api.general.paths.lib);
+
   // express application
   var app = express();
 
@@ -27,9 +32,9 @@ function run(api, Auth)
   // cookie-parser & cookie-session
   app.use(cookieParser());
   app.use(cookieSession({
-    secret: api.config.cookie.secret,
+    secret: api.config.api.cookie.secret,
     cookie: {
-      maxAge: api.config.cookie.maxAge
+      maxAge: api.config.api.cookie.maxAge
     }
   }));
 
@@ -38,15 +43,16 @@ function run(api, Auth)
   app.use(multiparty());
 
   // static files
-  app.use(express.static(api.config.general.paths.public));
+  app.use(express.static(api.config.api.general.paths.public));
 
   // enable pre-flight CORS request
   app.options('*', cors());
 
   // setup routes
-  for (var name in api.config.route) {
+  var Auth = api.container.get('Auth');
+  for (var name in api.config.api.route) {
     var controller = api.container.get(name);
-    api.config.route[name].forEach(function(v) {
+    api.config.api.route[name].forEach(function(v) {
       if (v.auth === false) {
         app[v.method](v.path, controller[v.action]);
       } else {
@@ -62,15 +68,4 @@ function run(api, Auth)
     api.logger.info('listening at http://%s:%s', host, port);
   });
 }
-
-//------------------------------
-// bootstrap
-//------------------------------
-(function() {
-  var api = require('../common/bootstrap')({
-    appName: 'api',
-    configPath: __dirname + '/config'
-  });
-  api.container.resolve(run);
-})();
 

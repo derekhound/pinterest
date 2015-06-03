@@ -35,7 +35,7 @@ module.exports = function(api, Sequelize, RdsModel) {
       }
 
       // generate token
-      var token = jwt.sign({user_id: row.user_id}, api.config.auth.token.secret, api.config.auth.token.options);
+      var token = jwt.sign({user_id: row.user_id}, api.config.api.auth.token.secret, api.config.api.auth.token.options);
 
       return {
         user_id: row.user_id,
@@ -49,7 +49,7 @@ module.exports = function(api, Sequelize, RdsModel) {
     return new Promise(function(resolve, reject) {
 
       // verify token
-      jwt.verify(token, api.config.auth.token.secret, function(err, decoded) {
+      jwt.verify(token, api.config.api.auth.token.secret, function(err, decoded) {
 
         // check err
         if (err) {
@@ -62,7 +62,7 @@ module.exports = function(api, Sequelize, RdsModel) {
 
         // generate token
         var user_id = decoded.user_id;
-        token = jwt.sign({user_id: user_id}, api.config.auth.token.secret, api.config.auth.token.options);
+        token = jwt.sign({user_id: user_id}, api.config.api.auth.token.secret, api.config.api.auth.token.options);
 
         // result
         return resolve({

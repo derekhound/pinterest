@@ -49,5 +49,9 @@ module.exports = function(api) {
     registerDir(api.container, api.project + dir);
   });
 
+  // setup api.load
+  api.load = function(dir) {
+    registerDir(api.container, dir);
+  };
 };
 

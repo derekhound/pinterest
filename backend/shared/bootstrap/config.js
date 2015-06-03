@@ -37,10 +37,13 @@ function loadConfigDir(env, dirpath)
 }
 
 module.exports = function(api) {
+  // env
+  var env = process.env.NODE_ENV || 'development';
+
   // config dir
   var dir = api.project + '/config';
 
   // load configs
-  api.config = loadConfigDir(api.env, dir);
+  api.config = loadConfigDir(env, dir);
 };
 
