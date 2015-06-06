@@ -43,7 +43,7 @@ function main(api)
   app.use(multiparty());
 
   // static files
-  app.use(express.static(api.config.api.general.paths.public));
+  app.use('/public', express.static(api.config.api.general.paths.public));
 
   // enable pre-flight CORS request
   app.options('*', cors());
