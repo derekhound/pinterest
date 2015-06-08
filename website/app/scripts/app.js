@@ -12,7 +12,8 @@ angular
     'ui.router',        // angular-ui-router
     'ui.bootstrap',     // angular-bootstrap
     'ngStorage',
-    'ngFileUpload'      // ng-file-upload
+    'ngFileUpload',     // ng-file-upload
+    'ngMasonry'         // angular-masonry
   ])
 
   .config(['$resourceProvider', function($resourceProvider) {

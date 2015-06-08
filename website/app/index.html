@@ -35,7 +35,7 @@
        ga('send', 'pageview');
     </script>
 
-    <!-- build:js(.) scripts/vendor.js -->
+    <!-- build:js(.) scripts/bower.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -56,21 +56,29 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/services/config.js"></script>
-        <script src="scripts/services/auth.js"></script>
-        <script src="scripts/services/model.js"></script>
+    <!-- build:js({.tmp,app}) scripts/vendor.js -->
+    <script src="vendors/masonry/imagesloaded.pkgd.js"></script>
+    <script src="vendors/masonry/masonry.pkgd.js"></script>
+    <script src="vendors/masonry/angular-masonry.js"></script>
+    <!-- endbuild -->
 
-        <script src="scripts/controllers/common/header-ctrl.js"></script>
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/config.js"></script>
+    <script src="scripts/services/auth.js"></script>
+    <script src="scripts/services/model.js"></script>
 
-        <script src="scripts/controllers/auth/signup/signup-ctrl.js"></script>
+    <script src="scripts/controllers/common/header-ctrl.js"></script>
 
-        <script src="scripts/controllers/welcome/index/signin-ctrl.js"></script>
+    <script src="scripts/controllers/auth/signup/signup-ctrl.js"></script>
 
-        <script src="scripts/controllers/home/index/index-ctrl.js"></script>
+    <script src="scripts/controllers/welcome/index/signin-ctrl.js"></script>
 
-        <script src="scripts/controllers/post/index/index-ctrl.js"></script>
-        <!-- endbuild -->
+    <script src="scripts/controllers/home/index/index-ctrl.js"></script>
+
+    <script src="scripts/controllers/destination/index/index-ctrl.js"></script>
+
+    <script src="scripts/controllers/post/index/index-ctrl.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
