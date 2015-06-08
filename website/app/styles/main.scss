@@ -31,3 +31,14 @@ a {
 	cursor: pointer;
 }
 
+
+
+.masonry-brick {
+	margin: 14px 7px 0 7px;
+	width: 236px;
+	border: 2px solid hsla(0, 0%, 0%, 0.5);
+
+	img {
+		width: 100%;
+	}
+}

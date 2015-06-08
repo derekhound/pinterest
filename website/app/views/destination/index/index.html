@@ -1,7 +1,13 @@
-<div class="row">
+<div class="row" ng-controller="DestinationIndexCtrl">
   <div class="col-md-12">
 
-    Destination Index Page
+
+    <div masonry>
+      <div class="masonry-brick" ng-repeat="brick in bricks">
+        <img ng-src="{{ brick.src }}" alt="A masonry brick">
+      </div>
+    </div>
+
 
   </div>
 </div>
