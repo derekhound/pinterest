@@ -20,6 +20,7 @@
       var timeout = null;
       this.preserveOrder = false;
       this.loadImages = true;
+
       this.scheduleMasonryOnce = function scheduleMasonryOnce() {
         var args = arguments;
         var found = schedule.filter(function filterFn(item) {
@@ -46,9 +47,11 @@
           schedule = [];
         }, 30);
       };
+
       function defaultLoaded($element) {
         $element.addClass('loaded');
       }
+
       this.appendBrick = function appendBrick(element, id) {
         if (destroyed) {
           return;
@@ -84,6 +87,7 @@
           });
         }
       };
+
       this.removeBrick = function removeBrick(id, element) {
         if (destroyed) {
           return;
@@ -92,6 +96,7 @@
         $element.masonry('remove', element);
         this.scheduleMasonryOnce('layout');
       };
+
       this.destroy = function destroy() {
         destroyed = true;
         if ($element.data('masonry')) {
@@ -101,6 +106,7 @@
         $scope.$emit('masonry.destroyed');
         bricks = [];
       };
+
       this.reload = function reload() {
         $element.masonry();
         $scope.$emit('masonry.reloaded');
@@ -114,16 +120,24 @@
       controller: 'MasonryCtrl',
       link: {
         pre: function preLink(scope, element, attrs, ctrl) {
+
+          // masonry options
           var attrOptions = scope.$eval(attrs.masonry || attrs.masonryOptions);
           var options = angular.extend({
               itemSelector: attrs.itemSelector || '.masonry-brick',
               columnWidth: parseInt(attrs.columnWidth, 10) || attrs.columnWidth
             }, attrOptions || {});
           element.masonry(options);
+
+          // load images
           var loadImages = scope.$eval(attrs.loadImages);
           ctrl.loadImages = loadImages !== false;
+
+          // preserve order
           var preserveOrder = scope.$eval(attrs.preserveOrder);
           ctrl.preserveOrder = preserveOrder !== false && attrs.preserveOrder !== undefined;
+
+          // reload on show
           var reloadOnShow = scope.$eval(attrs.reloadOnShow);
           if (reloadOnShow !== false && attrs.reloadOnShow !== undefined) {
             scope.$watch(function () {
@@ -134,6 +148,7 @@
               }
             });
           }
+
           scope.$emit('masonry.created', element);
           scope.$on('$destroy', ctrl.destroy);
         }
@@ -150,13 +165,16 @@
         pre: function preLink(scope, element, attrs, ctrl) {
           var id = scope.$id, index;
           ctrl.appendBrick(element, id);
+
           element.on('$destroy', function () {
             ctrl.removeBrick(id, element);
           });
+
           scope.$on('masonry.reload', function () {
             ctrl.scheduleMasonryOnce('reloadItems');
             ctrl.scheduleMasonryOnce('layout');
           });
+
           scope.$watch('$index', function () {
             if (index !== undefined && index !== scope.$index) {
               ctrl.scheduleMasonryOnce('reloadItems');

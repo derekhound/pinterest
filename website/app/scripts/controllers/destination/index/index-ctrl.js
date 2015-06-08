@@ -6,12 +6,15 @@ angular.module('app')
     '$scope', '$state', '$model',
     function ($scope, $state, $model) {
 
-    $scope.bricks = [{
-      src: 'http://192.168.1.251:3000/public/img/01.jpg'
-    }, {
-      src: 'http://192.168.1.251:3000/public/img/02.jpg'
-    }];
+    $scope.items = [];
 
-    console.log($scope.bricks)
+    $scope.add = function() {
+
+      var num = _.random(1, 9);
+
+      $scope.items.push({
+        src: 'http://192.168.1.251:3000/public/img/0' + num + '.jpg'
+      });
+    };
 
   }]);

@@ -1,10 +1,12 @@
 <div class="row" ng-controller="DestinationIndexCtrl">
   <div class="col-md-12">
 
+    <button class="button" ng-click="add()">Add</button>
+
 
     <div masonry>
-      <div class="masonry-brick" ng-repeat="brick in bricks">
-        <img ng-src="{{ brick.src }}" alt="A masonry brick">
+      <div class="masonry-brick" ng-repeat="item in items">
+        <img ng-src="{{item.src}}">
       </div>
     </div>
 
